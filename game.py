@@ -11,8 +11,8 @@ class Game:
         pygame.init()
         self.setting = Setting()
         self.screen = pygame.display.set_mode(self.setting.screen_size)
-        self.ball = Ball()
-        self.player_one = Paddle(self.screen, 15, 200)
+        self.ball = Ball(self.screen, self.setting.screen_width/2, self.setting.screen_height/2)
+        self.player_one = Paddle(self.screen, 15, 50)
         self.player_two = Paddle(self.screen, 585, 200)
 
         self.player_one_move_up = False
@@ -34,6 +34,17 @@ class Game:
                     sys.exit()
 
                 if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_w:
+                        self.player_one_move_up = True
+                    elif event.key == pygame.K_s:
+                        self.player_one_move_down = True
+                elif event.type == pygame.KEYUP:
+                    if event.key == pygame.K_w:
+                        self.player_one_move_up = False
+                    elif event.key == pygame.K_s:
+                        self.player_one_move_down = False
+
+                if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_UP:
                         self.player_two_move_up = True
                     elif event.key == pygame.K_DOWN:
@@ -44,13 +55,25 @@ class Game:
                     elif event.key == pygame.K_DOWN:
                         self.player_two_move_down = False
 
-            if self.player_two_move_up:
-                self.player_two.move_paddle_up()
-            elif self.player_two_move_down:
-                self.player_two.move_paddle_down()
+            # Make sure the paddles don't go over the screen
+            if self.player_one.y_cor >= 50:
+                if self.player_one_move_up:
+                    self.player_one.move_paddle_up()
+            if self.player_one.y_cor <= 350:
+                if self.player_one_move_down:
+                    self.player_one.move_paddle_down()
+            if self.player_two.y_cor >= 50:
+                if self.player_two_move_up:
+                    self.player_two.move_paddle_up()
+            if self.player_two.y_cor <= 350:
+                if self.player_two_move_down:
+                    self.player_two.move_paddle_down()
 
             # Draw two paddles.
             self.player_one.draw_paddle()
             self.player_two.draw_paddle()
+
+            # Draw ball
+            self.ball.draw_ball()
 
             pygame.display.update()

@@ -13,7 +13,7 @@ class Paddle:
 
         self.paddle_rect = self.paddle.get_rect(center=(self.x_cor, self.y_cor))
 
-        self.paddle_speed = 0.01
+        self.paddle_speed = 5
 
     def draw_paddle(self):
         self.paddle_rect = self.paddle.get_rect(center=(self.x_cor, self.y_cor))

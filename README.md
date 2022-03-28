@@ -14,7 +14,7 @@ In order to run the game:
 
 * Execute main.py
 
-Demonstration:
+Demonstration:<br>
 ![project_outline](images/demo.png)
 
 Picture source site:

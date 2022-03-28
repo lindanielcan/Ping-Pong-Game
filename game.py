@@ -11,7 +11,7 @@ class Game:
         pygame.init()
         self.setting = Setting()
         self.screen = pygame.display.set_mode(self.setting.screen_size)
-        self.ball = Ball(self.screen, self.setting.screen_width/2, self.setting.screen_height/2)
+        self.ball = Ball(self.screen, self.setting.screen_width / 2, self.setting.screen_height / 2)
         self.player_one = Paddle(self.screen, 15, 50)
         self.player_two = Paddle(self.screen, 585, 200)
 
@@ -33,41 +33,12 @@ class Game:
                     pygame.quit()
                     sys.exit()
 
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_w:
-                        self.player_one_move_up = True
-                    elif event.key == pygame.K_s:
-                        self.player_one_move_down = True
-                elif event.type == pygame.KEYUP:
-                    if event.key == pygame.K_w:
-                        self.player_one_move_up = False
-                    elif event.key == pygame.K_s:
-                        self.player_one_move_down = False
-
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_UP:
-                        self.player_two_move_up = True
-                    elif event.key == pygame.K_DOWN:
-                        self.player_two_move_down = True
-                elif event.type == pygame.KEYUP:
-                    if event.key == pygame.K_UP:
-                        self.player_two_move_up = False
-                    elif event.key == pygame.K_DOWN:
-                        self.player_two_move_down = False
+                self.listen_key_events(event)
 
             # Make sure the paddles don't go over the screen
-            if self.player_one.y_cor >= 50:
-                if self.player_one_move_up:
-                    self.player_one.move_paddle_up()
-            if self.player_one.y_cor <= 350:
-                if self.player_one_move_down:
-                    self.player_one.move_paddle_down()
-            if self.player_two.y_cor >= 50:
-                if self.player_two_move_up:
-                    self.player_two.move_paddle_up()
-            if self.player_two.y_cor <= 350:
-                if self.player_two_move_down:
-                    self.player_two.move_paddle_down()
+
+            self.player_one.move_paddle(self.player_one_move_up, self.player_one_move_down)
+            self.player_two.move_paddle(self.player_two_move_up, self.player_two_move_down)
 
             # Draw two paddles.
             self.player_one.draw_paddle()
@@ -75,5 +46,39 @@ class Game:
 
             # Draw ball
             self.ball.draw_ball()
+            # Move ball
+            self.ball.move_ball()
+
+            self.ball.ball_hit_paddle(self.player_one.paddle_rect, 'player_one')
+            self.ball.ball_hit_paddle(self.player_two.paddle_rect, 'player_two')
 
             pygame.display.update()
+
+    # def move_paddle
+
+    def listen_key_events(self, event):
+        """Listen key events"""
+        # Listen to the key events - key pressed.
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_w:
+                self.player_one_move_up = True
+            elif event.key == pygame.K_s:
+                self.player_one_move_down = True
+        # Listen to the key events - key released.
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_w:
+                self.player_one_move_up = False
+            elif event.key == pygame.K_s:
+                self.player_one_move_down = False
+        # Listen to the key events - key pressed.
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP:
+                self.player_two_move_up = True
+            elif event.key == pygame.K_DOWN:
+                self.player_two_move_down = True
+        # Listen to the key events - key released.
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_UP:
+                self.player_two_move_up = False
+            elif event.key == pygame.K_DOWN:
+                self.player_two_move_down = False

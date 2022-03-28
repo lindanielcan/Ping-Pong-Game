@@ -6,13 +6,16 @@ project is to practice the use of pygame.
 
 Some game features:
 
-* two player playing on each side, who ever gets the winning score, win.
-* when game is over, press space key to start again.
-* the ball will move faster every time the player scores.
+* Two player playing on each side, who ever gets the winning score, win.
+* When game is over, press space key to start again.
+* The ball will move faster every time the player scores.
 
 In order to run the game:
 
 * Execute main.py
+
+Demonstration:
+![project_outline](images/demo.png)
 
 Picture source site:
 www.flaticon.com

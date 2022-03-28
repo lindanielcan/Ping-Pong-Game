@@ -1,16 +1,15 @@
 import random
-from setting import Setting
 import pygame.image
 from random import randint
 
 
 class Ball:
-    def __init__(self, screen, x_cor, y_cor):
+    def __init__(self, screen, setting):
         self.screen = screen
         self.ball_radius = 20
-        self.setting = Setting()
-        self.x_cor = x_cor
-        self.y_cor = y_cor
+        self.setting = setting
+        self.x_cor = self.setting.screen_width / 2
+        self.y_cor = self.setting.screen_height / 2
         self.ball = pygame.transform.scale(pygame.image.load('images/ball.png', ),
                                            (self.ball_radius, self.ball_radius)).convert_alpha(self.screen)
         self.ball_rect = self.ball.get_rect(center=(self.x_cor, self.y_cor))
@@ -27,6 +26,7 @@ class Ball:
         self.paddle_hit = False
 
     def draw_ball(self):
+        self.ball_rect = self.ball.get_rect(center=(self.x_cor, self.y_cor))
         self.screen.blit(self.ball, self.ball_rect)
 
     def move_ball(self):
@@ -83,3 +83,16 @@ class Ball:
                 self.quadrants = 2
             elif self.quadrants == 4:
                 self.quadrants = 1
+
+    def ball_pass_left_or_right_screen(self):
+
+        if self.ball_rect.centerx <= 0:
+            self.x_cor = self.setting.screen_width / 2
+            self.y_cor = self.setting.screen_height / 2
+            self.quadrants = random.randint(1, 4)
+            return 0
+        elif self.ball_rect.centerx >= self.setting.screen_width:
+            self.x_cor = self.setting.screen_width / 2
+            self.y_cor = self.setting.screen_height / 2
+            self.quadrants = random.randint(1, 4)
+            return 1
